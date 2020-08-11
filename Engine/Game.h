@@ -23,6 +23,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Player.h"
+#include "Block.h"
 
 class Game
 {
@@ -43,4 +45,6 @@ private:
 	/********************************/
 	/*  User Variables              */
 	/********************************/
+	Player player;
+	Block block;
 };

@@ -24,7 +24,9 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	player(400, 200, 250, 420),
+	block(200, 200, 250, 220)
 {
 }
 
@@ -42,6 +44,6 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
-	for (int i = 200; i < 400; ++i)
-		gfx.PutPixel(i, 400, 255, 255, 255);
+	player.getRect().draw(gfx);
+	block.getRect().draw(gfx);
 }

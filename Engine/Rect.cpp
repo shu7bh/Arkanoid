@@ -25,7 +25,8 @@ Rect::Rect(const float t, const float l, const int width, const int height, Colo
 	bottom = t + height, right = left + width;
 }
 
-void Rect::draw(Graphics gfx){
+void Rect::draw(Graphics& gfx) const
+{
 	for (int i = int(top); i <= int(bottom); ++i)
 		for (int j = int(left); j <= int(right); ++j)
 			gfx.PutPixel(i, j, color);
