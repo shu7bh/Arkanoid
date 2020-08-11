@@ -10,6 +10,5 @@ public:
 	const Rect& getRect() const { return rect; }
 private:
 	Rect rect;
-
 };
 

@@ -26,7 +26,8 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	player(400, 200, 250, 420),
-	block(200, 200, 250, 220)
+	block(200, 200, 250, 220),
+	ball(300, 300, 320, 320)
 {
 }
 
@@ -40,13 +41,15 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	player.ChangeVelocity(wnd);
-	player.KeepInFrame(0, gfx.ScreenWidth);
-	player.update();
+	ball.update();
+	ball.keepInFrame(0, 0, gfx.ScreenWidth);
+	if (ball.touchedBottom(gfx.ScreenHeight))
+		exit(0);
 }
 
 void Game::ComposeFrame()
 {
 	player.getRect().draw(gfx);
 	block.getRect().draw(gfx);
+	ball.getRect().draw(gfx);
 }
