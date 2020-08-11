@@ -31,3 +31,4 @@ void Rect::draw(Graphics& gfx) const
 		for (int j = int(left); j <= int(right); ++j)
 			gfx.PutPixel(i, j, color);
 }
+
