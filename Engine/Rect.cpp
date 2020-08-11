@@ -29,7 +29,7 @@ void Rect::draw(Graphics& gfx) const
 {
 	for (int i = int(top); i <= int(bottom); ++i)
 		for (int j = int(left); j <= int(right); ++j)
-			gfx.PutPixel(i, j, color);
+			gfx.PutPixel(j, i, color);
 }
 
 void Rect::update(float vx, float vy)
