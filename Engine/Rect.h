@@ -13,5 +13,6 @@ class Rect
 		Rect(const float t, const float l, const int width, const int height, Color c = Colors::White);
 		bool isHit = false;
 		void draw(Graphics& gfx) const;
+		void update(float vx, float vy);
 };
 
