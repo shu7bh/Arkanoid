@@ -15,7 +15,7 @@ void Player::update()
 void Player::ChangeVelocity(MainWindow& wnd)
 {
 	if (wnd.kbd.KeyIsPressed(VK_LEFT) || wnd.kbd.KeyIsPressed('A'))
-		v = -1;
+		v = -3;
 	if (wnd.kbd.KeyIsPressed(VK_RIGHT) || wnd.kbd.KeyIsPressed('D'))
 		v = 3;
 }
