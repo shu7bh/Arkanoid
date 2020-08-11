@@ -40,6 +40,9 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	player.ChangeVelocity(wnd);
+	player.KeepInFrame(0, gfx.ScreenWidth);
+	player.update();
 }
 
 void Game::ComposeFrame()
