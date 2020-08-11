@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "Player.h"
 #include "Block.h"
+#include "Ball.h"
 
 class Game
 {
@@ -47,4 +48,5 @@ private:
 	/********************************/
 	Player player;
 	Block block;
+	Ball ball;
 };
