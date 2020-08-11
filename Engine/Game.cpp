@@ -25,9 +25,9 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	player(400, 200, 250, 420),
+	player(500, 200, 520, 250),
 	block(200, 200, 250, 220),
-	ball(300, 300, 320, 320)
+	ball(300, 300, 305, 305)
 {
 }
 
@@ -41,6 +41,9 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	player.ChangeVelocity(wnd);
+	player.update();
+	player.KeepInFrame(0, gfx.ScreenWidth);
 	ball.update();
 	ball.keepInFrame(0, 0, gfx.ScreenWidth);
 	if (ball.touchedBottom(gfx.ScreenHeight))
