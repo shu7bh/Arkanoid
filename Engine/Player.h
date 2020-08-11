@@ -10,6 +10,7 @@ public:
 	void update();
 	void ChangeVelocity(MainWindow& wnd);
 	const Rect& getRect() const { return rect; }
+	void KeepInFrame(int Left, int Right);
 private:
 	Rect rect;
 	float v;
