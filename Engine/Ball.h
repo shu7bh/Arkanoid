@@ -1,5 +1,6 @@
 #pragma once
 #include "Rect.h"
+#include "Graphics.h"
 
 class Ball
 {
@@ -9,6 +10,8 @@ public:
 	void keepInFrame(int top, int left, int right);
 	const Rect& getRect() const { return rect; }
 	bool touchedBottom(int bottom);
+	void hitPlayer(const Rect& player);
+	void draw(Graphics& gfx) const;
 
 private:
 	Rect rect;

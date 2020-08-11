@@ -25,9 +25,9 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	player(500, 200, 520, 250),
+	player(500, 200, 510, 270),
 	block(200, 200, 250, 220),
-	ball(300, 300, 305, 305)
+	ball(100, 100, 110, 110, Colors::Yellow)
 {
 }
 
@@ -45,6 +45,7 @@ void Game::UpdateModel()
 	player.update();
 	player.KeepInFrame(0, gfx.ScreenWidth);
 	ball.update();
+	ball.hitPlayer(player.getRect());
 	ball.keepInFrame(0, 0, gfx.ScreenWidth);
 	if (ball.touchedBottom(gfx.ScreenHeight))
 		exit(0);
@@ -54,5 +55,5 @@ void Game::ComposeFrame()
 {
 	player.getRect().draw(gfx);
 	block.getRect().draw(gfx);
-	ball.getRect().draw(gfx);
+	ball.draw(gfx);
 }

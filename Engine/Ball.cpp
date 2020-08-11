@@ -26,3 +26,24 @@ bool Ball::touchedBottom(int bottom)
 		return true;
 	return false;
 }
+
+void Ball::hitPlayer(const Rect& player)
+{
+	if (rect.bottom >= player.top - vy &&
+		rect.left >= player.left - vx &&
+		rect.bottom <= player.bottom - vy &&
+		rect.left <= player.right - vx)
+		vy = -vy;
+}
+
+void Ball::draw(Graphics& gfx) const
+{
+	int rad = (rect.right - rect.left) / 2;
+	int cx = (rect.right + rect.left) / 2;
+	int cy = (rect.bottom + rect.top) / 2;
+
+	for (int i = int(rect.left); i <= int(rect.right); ++i)
+		for (int j = int(rect.top); j <= int(rect.bottom); ++j)
+			if ((cx - i) * (cx - i) + (cy - j) * (cy - j) <= rad * rad)
+				gfx.PutPixel(i, j, rect.color);
+}
