@@ -42,8 +42,8 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	player.ChangeVelocity(wnd);
-	player.update();
 	player.KeepInFrame(0, gfx.ScreenWidth);
+	player.update();
 	ball.update();
 	ball.hitPlayer(player.getRect());
 	ball.keepInFrame(0, 0, gfx.ScreenWidth);
