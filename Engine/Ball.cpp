@@ -3,8 +3,8 @@
 Ball::Ball(const float t, const float l, const float b, const float r, const Color c)
 	: rect(t, l, b, r, c) 
 {
-	vx = 2;
-	vy = 2;
+	vx = 1.5;
+	vy = 1.5;
 }
 
 void Ball::update()
@@ -27,13 +27,40 @@ bool Ball::touchedBottom(int bottom)
 	return false;
 }
 
-void Ball::hitPlayer(const Rect& player)
+bool Ball::hitRect(const Rect& object)
 {
-	if (rect.bottom >= player.top - vy &&
-		rect.left >= player.left - vx &&
-		rect.bottom <= player.bottom - vy &&
-		rect.left <= player.right - vx)
+	if ((rect.bottom >= object.top &&
+		rect.left >= object.left &&
+		rect.bottom <= object.bottom &&
+		rect.left <= object.right)
+		||
+		(rect.top >= object.top &&
+		rect.left >= object.left &&
+		rect.top <= object.bottom &&
+		rect.left <= object.right
+		)
+		||
+		(rect.bottom >= object.top &&
+		rect.right >= object.left &&
+		rect.bottom <= object.bottom &&
+		rect.right <= object.right)
+		||
+		(rect.top >= object.top &&
+		rect.right >= object.left &&
+		rect.top <= object.bottom &&
+		rect.right <= object.right
+		))
+	{
 		vy = -vy;
+		return true;
+	}
+	return false;
+	/*
+	vx = (vx + 5*v) / 6  
+
+	always consider the player velocity is constant
+	
+	*/
 }
 
 void Ball::draw(Graphics& gfx) const

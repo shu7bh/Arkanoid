@@ -15,14 +15,20 @@ void Player::update()
 void Player::ChangeVelocity(MainWindow& wnd)
 {
 	if (wnd.kbd.KeyIsPressed(VK_LEFT) || wnd.kbd.KeyIsPressed('A'))
-		v = -5;
+	{
+		v = (v >= 0) ? -3.5 : v;
+		v += (v <= -5) ? 0 : -0.05f;
+	}
 	else if (wnd.kbd.KeyIsPressed(VK_RIGHT) || wnd.kbd.KeyIsPressed('D'))
-		v = 5;
+	{
+		v = (v <= 0) ? +3.5 : v;
+		v += (v >= 5) ? 0 : +0.05f;
+	}
 	else v = 0;
 }
 
 void Player::KeepInFrame(int Left, int Right)
 {
-	if (int(rect.left) <= Left - v || int(rect.right) >= Right - v)
+	if (int(rect.left) <= Left - int(v) || int(rect.right) >= Right - int(v))
 		v = 0;
 }

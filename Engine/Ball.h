@@ -10,11 +10,11 @@ public:
 	void keepInFrame(int top, int left, int right);
 	const Rect& getRect() const { return rect; }
 	bool touchedBottom(int bottom);
-	void hitPlayer(const Rect& player);
+	bool hitRect(const Rect& object);
 	void draw(Graphics& gfx) const;
+	float vx, vy;
 
 private:
 	Rect rect;
-	float vx, vy;
 
 };

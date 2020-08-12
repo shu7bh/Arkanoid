@@ -11,7 +11,7 @@ public:
 	void ChangeVelocity(MainWindow& wnd);
 	const Rect& getRect() const { return rect; }
 	void KeepInFrame(int Left, int Right);
+	float v;
 private:
 	Rect rect;
-	float v;
 };
