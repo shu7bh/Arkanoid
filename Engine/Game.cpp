@@ -25,10 +25,12 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	player(500, 200, 520, 250),
-	block(200, 200, 250, 220),
-	ball(300, 300, 305, 305)
+	player(500, 200),
+	ball(gfx.ScreenHeight / 2 + 10, 10)
 {
+	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += Block::height + 10, ++count)
+		for (auto i = 10, ct = 0; i < gfx.ScreenWidth - Block::width - 10 && ct < count; i += Block::width + 10, ++ct)
+		blocks.push_back(std::make_unique<Block>(float(j), float(i), float(j + Block::height), float(i + Block::width)));
 }
 
 void Game::Go()
@@ -42,10 +44,25 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	player.ChangeVelocity(wnd);
-	player.update();
 	player.KeepInFrame(0, gfx.ScreenWidth);
+	player.update();
 	ball.update();
 	ball.keepInFrame(0, 0, gfx.ScreenWidth);
+	if (ball.hitPlayer(player.getRect()))
+		ball.vx += (player.v > 0)? (ball.vx >= 3)? 0 : player.v / 3 : (ball.vx <= -3)? 0: player.v / 3;
+
+	for (auto& block : blocks)
+		if (ball.hitBlock(block->getRect()))
+			block->DecHitCounter();
+
+	for (auto i = 0; i < blocks.size(); ++i)
+		if (blocks[i]->HitCounter() == 0)
+		{
+			blocks.erase(blocks.begin() + i);
+			--i;
+			break;
+		}
+
 	if (ball.touchedBottom(gfx.ScreenHeight))
 		exit(0);
 }
@@ -53,6 +70,7 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	player.getRect().draw(gfx);
-	block.getRect().draw(gfx);
-	ball.getRect().draw(gfx);
+	for (const auto& block : blocks)
+		block->getRect().draw(gfx);
+	ball.draw(gfx);
 }

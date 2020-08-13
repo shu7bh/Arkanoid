@@ -19,13 +19,15 @@
  *	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
  ******************************************************************************************/
 #pragma once
-
+#include <vector>
+#include <memory>
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Player.h"
 #include "Block.h"
 #include "Ball.h"
+
 
 class Game
 {
@@ -47,6 +49,7 @@ private:
 	/*  User Variables              */
 	/********************************/
 	Player player;
-	Block block;
+//	Block block;
+	std::vector <std::unique_ptr<Block>> blocks;
 	Ball ball;
 };

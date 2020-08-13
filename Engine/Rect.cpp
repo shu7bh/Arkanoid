@@ -18,7 +18,7 @@ Rect::Rect(const float t, const float l, const float b, const float r, const Col
 	top = t, bottom = b, left = l, right = r;
 }
 
-Rect::Rect(const float t, const float l, const int width, const int height, Color c)
+Rect::Rect(const float t, const float l, const int height, const int width, Color c)
 	: color(c)
 {
 	top = t, left = l;
@@ -27,9 +27,9 @@ Rect::Rect(const float t, const float l, const int width, const int height, Colo
 
 void Rect::draw(Graphics& gfx) const
 {
-	for (int i = int(top); i <= int(bottom); ++i)
-		for (int j = int(left); j <= int(right); ++j)
-			gfx.PutPixel(j, i, color);
+	for (int i = int(left); i <= int(right); ++i)
+		for (int j = int(top); j <= int(bottom); ++j)
+			gfx.PutPixel(i, j, color);
 }
 
 void Rect::update(float vx, float vy)
