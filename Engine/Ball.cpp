@@ -45,6 +45,42 @@ bool Ball::touchedBottom(int bottom)
 
 bool Ball::hitRect(const Rect& object)
 {
+	if (rect.bottom >= object.top &&
+		rect.bottom < object.bottom &&
+		rect.left > object.left &&
+		rect.right < object.right)
+	{ // If condition if the ball touches the bottom part only, not the sides at all
+		vy = -vy;
+		return true;
+	}
+
+	if (rect.top > object.top &&
+		rect.top <= object.bottom &&
+		rect.left > object.left &&
+		rect.right < object.right)
+	{ // If condition if the ball touches the top part only, not the sides at all
+		vy = -vy;
+		return true;
+	}
+
+	if (rect.left >= object.left &&
+		rect.left < object.right &&
+		rect.top > object.top &&
+		rect.bottom < object.bottom)
+	{ // If condition if the ball touches the top part only, not the sides at all
+		vx = -vx;
+		return true;
+	}
+
+	if (rect.right > object.left &&
+		rect.right <= object.right &&
+		rect.top > object.top &&
+		rect.bottom < object.bottom)
+	{ // If condition if the ball touches the top part only, not the sides at all
+		vx = -vx;
+		return true;
+	}
+
 	if ((rect.bottom >= object.top &&
 		rect.left >= object.left &&
 		rect.bottom <= object.bottom &&
@@ -68,6 +104,7 @@ bool Ball::hitRect(const Rect& object)
 		))
 	{
 		vy = -vy;
+		vx = -vx;
 		return true;
 	}
 	return false;
