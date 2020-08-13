@@ -6,8 +6,11 @@
 class Block
 {
 public:
-	Block(float t, float l, float b, float r, int rd, int grn, int bl);
-	Block(float t, float l, float b, float r, Color c = Colors::White);
+	Block(const float t, const float l, const float b, const float r, const int rd, const int grn, const int bl);
+	Block(const float t, const float l, const float b, const float r, const Color c = Colors::White);
+
+	Block(const float t, const float l, const Color c = Colors::White);
+
 	const Rect& getRect() const { return rect; }
 	const int HitCounter() const { return hitCounter; }
 	void DecHitCounter() { --hitCounter, rect.color = colors[hitCounter]; }

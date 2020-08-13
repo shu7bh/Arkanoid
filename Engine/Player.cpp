@@ -1,11 +1,14 @@
 #include "Player.h"
 #include "MainWindow.h"
 
-Player::Player(float t, float l, float r, float b, int rd, int grn, int bl)
+Player::Player(const float t, const float l, const float r, const float b, const int rd, const int grn, const int bl)
 	: rect(t, l, r, b, rd, grn, bl), v(0) {}
 
-Player::Player(float t, float l, float r, float b, Color c)
+Player::Player(const float t, const float l, const float r, const float b, const Color c)
 	: rect(t, l, r, b, c), v(0) {}
+
+Player::Player(const float t, const float l, const Color c)
+	: rect(t, l, height, width, c), v(0) {}
 
 void Player::update()
 {
