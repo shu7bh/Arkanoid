@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="ChiliException.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="DXErr.cpp" />
