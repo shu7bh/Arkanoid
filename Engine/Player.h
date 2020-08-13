@@ -12,6 +12,8 @@ public:
 	const Rect& getRect() const { return rect; }
 	void KeepInFrame(int Left, int Right);
 	float v;
+
+	static constexpr int width = 70, height = 10;
 private:
 	Rect rect;
 };

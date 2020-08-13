@@ -1,6 +1,6 @@
 #include "Block.h"
 
-std::default_random_engine Block::generator(time(0));
+std::default_random_engine Block::generator((unsigned int)time(0));
 std::uniform_int_distribution<int> Block::values(1, 5);
 
 const std::vector<Color> Block::colors = 

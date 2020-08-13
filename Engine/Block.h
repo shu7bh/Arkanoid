@@ -11,6 +11,8 @@ public:
 	const Rect& getRect() const { return rect; }
 	const int HitCounter() const { return hitCounter; }
 	void DecHitCounter() { --hitCounter, rect.color = colors[hitCounter]; }
+
+	static constexpr int width = 50, height = 10;
 private:
 
 	int hitCounter = 1;

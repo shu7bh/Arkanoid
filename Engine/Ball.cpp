@@ -14,10 +14,26 @@ void Ball::update()
 
 void Ball::keepInFrame(int top, int left, int right)
 {
-	if (int(rect.top) < top - int(vy))
+	if (int(rect.top) < top)
+	{
+		rect.top = float(top);
+		rect.bottom = float(top + width);
 		vy = -vy;
-	if (int(rect.left) < left - int(vx) || int(rect.right) >= right - int(vx))
+	}
+
+	if (int(rect.left) < left)
+	{
+		rect.left = float(left);
+		rect.right = float(left + width);
 		vx = -vx;
+	}
+
+	if (int(rect.right) >= right)
+	{
+		rect.right = float(right - 1);
+		rect.left = rect.right - float(width);
+		vx = -vx;
+	}
 }
 
 bool Ball::touchedBottom(int bottom)
@@ -65,9 +81,9 @@ bool Ball::hitRect(const Rect& object)
 
 void Ball::draw(Graphics& gfx) const
 {
-	int rad = (rect.right - rect.left) / 2;
-	int cx = (rect.right + rect.left) / 2;
-	int cy = (rect.bottom + rect.top) / 2;
+	int rad = int((rect.right - rect.left) / 2);
+	int cx = int((rect.right + rect.left) / 2);
+	int cy = int((rect.bottom + rect.top) / 2);
 
 	for (int i = int(rect.left); i <= int(rect.right); ++i)
 		for (int j = int(rect.top); j <= int(rect.bottom); ++j)

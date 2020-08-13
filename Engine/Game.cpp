@@ -25,12 +25,12 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	player(500, 200, 510, 270),
-	ball(gfx.ScreenHeight / 2 + 10, 10, gfx.ScreenHeight / 2 + 30, 20, Colors::Yellow)
+	player(500, 200, 500 + Player::height, 200 + player.width),
+	ball(gfx.ScreenHeight / 2 + 10, 10, gfx.ScreenHeight / 2 + 10 + Ball::width, 10 + Ball::width, Colors::Yellow)
 {
-	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += 20, ++count)
-		for (auto i = 10, ct = 0; i < gfx.ScreenWidth - 60 && ct < count; i += 60, ++ct)
-		blocks.push_back(std::make_unique<Block>(j, i, j + 10, i + 50));
+	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += Block::height + 10, ++count)
+		for (auto i = 10, ct = 0; i < gfx.ScreenWidth - Block::width - 10 && ct < count; i += Block::width + 10, ++ct)
+		blocks.push_back(std::make_unique<Block>(float(j), float(i), float(j + Block::height), float(i + Block::width)));
 }
 
 void Game::Go()
@@ -46,8 +46,8 @@ void Game::UpdateModel()
 	player.ChangeVelocity(wnd);
 	player.KeepInFrame(0, gfx.ScreenWidth);
 	player.update();
-	ball.keepInFrame(0, 0, gfx.ScreenWidth);
 	ball.update();
+	ball.keepInFrame(0, 0, gfx.ScreenWidth);
 	if (ball.hitRect(player.getRect()))
 		ball.vx += (player.v > 0)? (ball.vx >= 3)? 0 : player.v / 3 : (ball.vx <= -3)? 0: player.v / 3;
 

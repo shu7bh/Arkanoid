@@ -14,6 +14,7 @@ public:
 	void draw(Graphics& gfx) const;
 	float vx, vy;
 
+	static constexpr int width = 10;
 private:
 	Rect rect;
 
