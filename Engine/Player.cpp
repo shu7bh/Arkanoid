@@ -10,6 +10,7 @@ Player::Player(const float t, const float l, const float r, const float b, const
 Player::Player(const float t, const float l, const Color c)
 	: rect(t, l, height, width, c), v(0) {}
 
+
 void Player::update()
 {
 	rect.update(v, 0);

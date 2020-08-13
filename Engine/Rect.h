@@ -14,4 +14,3 @@ class Rect
 		void draw(Graphics& gfx) const;
 		void update(float vx, float vy);
 };
-
