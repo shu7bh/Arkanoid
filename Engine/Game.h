@@ -42,6 +42,7 @@ private:
 	/********************************/
 	/*  User Functions              */
 	/********************************/
+	void drawBorders();
 private:
 	MainWindow& wnd;
 	Graphics gfx;
@@ -55,4 +56,5 @@ private:
 	Time execTime;
 	float dt;
 	bool gameStarted = false;
+	static constexpr int sideBordervar = 100;   // dist bw border and gfx.screenwidth
 };

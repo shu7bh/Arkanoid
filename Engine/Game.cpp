@@ -30,7 +30,7 @@ Game::Game( MainWindow& wnd )
 	dt(execTime.getExecTime())
 {
 	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += Block::height + 10, ++count)
-		for (auto i = 10, ct = 0; i < gfx.ScreenWidth - Block::width - 10 && ct < count; i += Block::width + 10, ++ct)
+		for (auto i = 10 + sideBordervar, ct = 0; i < gfx.ScreenWidth - Block::width - 10 - sideBordervar && ct < count; i += Block::width + 10, ++ct)
 		blocks.push_back(std::make_unique<Block>(float(j), float(i), float(j + Block::height), float(i + Block::width)));
 }
 
@@ -49,7 +49,7 @@ void Game::UpdateModel()
 	{
 		player.ChangeVelocity(wnd);
 		player.update(dt, execTime.TotalTime());
-		player.KeepInFrame(0, gfx.ScreenWidth);
+		player.KeepInFrame(sideBordervar, gfx.ScreenWidth - sideBordervar);
 		ball.update(dt, execTime.TotalTime());
 		ball.hitPlayer(player.getRect(), dt);
 
@@ -65,7 +65,7 @@ void Game::UpdateModel()
 				break;
 			}
 
-		ball.keepInFrame(0, 0, gfx.ScreenWidth);
+		ball.keepInFrame(0, sideBordervar, gfx.ScreenWidth - sideBordervar);
 		if (ball.touchedBottom(gfx.ScreenHeight))
 			exit(0);
 	}
@@ -79,4 +79,14 @@ void Game::ComposeFrame()
 	for (const auto& block : blocks)
 		block->getRect().draw(gfx);
 	ball.draw(gfx);
+	drawBorders();
+}
+
+void Game::drawBorders()
+{	
+	for(int i =0; i < sideBordervar;++i)
+		for (int j = 0; j < gfx.ScreenHeight; ++j) {
+			gfx.PutPixel(i, j, Colors::Gray);
+			gfx.PutPixel(gfx.ScreenWidth - i - 1, j, Colors::Gray);
+		}
 }
