@@ -14,7 +14,7 @@ public:
 	bool hitBlock(const Rect& object, const float dt);
 	void draw(Graphics& gfx) const;
 	float vx, vy;
-	bool hitPlayer(const Rect& player);
+	void hitPlayer(const Rect& player, const float dt);
 	static constexpr int width = 10;
 private:
 	Rect rect;

@@ -54,4 +54,5 @@ private:
 	Ball ball;
 	Time execTime;
 	float dt;
+	bool gameStarted = false;
 };

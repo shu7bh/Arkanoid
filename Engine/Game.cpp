@@ -25,8 +25,8 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	player(500, 200),
-	ball(gfx.ScreenHeight / 2 + 10, 10),
+	player(gfx.ScreenHeight - Player::height - 1, (gfx.ScreenWidth - Player::width) / 2),
+	ball(gfx.ScreenHeight - Player::height - Ball::width - 1, (gfx.ScreenWidth - Ball::width) / 2),
 	dt(execTime.getExecTime())
 {
 	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += Block::height + 10, ++count)
@@ -44,29 +44,33 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	dt = execTime.getExecTime();
-	player.ChangeVelocity(wnd);
-	player.update(dt);
-	player.KeepInFrame(0, gfx.ScreenWidth);
-	ball.update(dt);
-	ball.keepInFrame(0, 0, gfx.ScreenWidth);
-	if (ball.hitPlayer(player.getRect()))
-		ball.vx += (player.v > 0)? (ball.vx >= 3 * 60.0f)? 0 : player.v / 3 : (ball.vx <= -3 * 60.0f)? 0: player.v / 3;
+	if (gameStarted)
+	{
+		dt = execTime.getExecTime();
+		player.ChangeVelocity(wnd);
+		player.update(dt);
+		player.KeepInFrame(0, gfx.ScreenWidth);
+		ball.update(dt);
+		ball.hitPlayer(player.getRect(), dt);
 
-	for (auto& block : blocks)
-		if (ball.hitBlock(block->getRect(), dt))
-			block->DecHitCounter();
+		for (auto& block : blocks)
+			if (ball.hitBlock(block->getRect(), dt))
+				block->DecHitCounter();
 
-	for (auto i = 0; i < blocks.size(); ++i)
-		if (blocks[i]->HitCounter() == 0)
-		{
-			blocks.erase(blocks.begin() + i);
-			--i;
-			break;
-		}
+		for (auto i = 0; i < blocks.size(); ++i)
+			if (blocks[i]->HitCounter() == 0)
+			{
+				blocks.erase(blocks.begin() + i);
+				--i;
+				break;
+			}
 
-	if (ball.touchedBottom(gfx.ScreenHeight))
-		exit(0);
+		ball.keepInFrame(0, 0, gfx.ScreenWidth);
+		if (ball.touchedBottom(gfx.ScreenHeight))
+			exit(0);
+	}
+	else if (wnd.mouse.LeftIsPressed())
+		gameStarted = true;
 }
 
 void Game::ComposeFrame()
