@@ -51,7 +51,7 @@ bool Ball::touchedBottom(int bottom)
 	return false;
 }
 
-bool Ball::hitBlock(const Rect& block)
+bool Ball::hitBlock(const Rect& block, const float dt)
 {
 	if (rect.bottom >= block.top &&
 		rect.bottom < block.bottom &&
@@ -132,7 +132,7 @@ bool Ball::hitBlock(const Rect& block)
 		rect.bottom <= block.bottom && // top right
 		rect.left <= block.right) 
 	{
-		rect.update(-vx, -vy);
+		rect.update(-vx * dt, -vy * dt);
 		if (vx < 0 && vy < 0) // coming from the bottom right
 			vx = -vx / 2;
 		else if (vx > 0 && vy > 0)
@@ -149,7 +149,7 @@ bool Ball::hitBlock(const Rect& block)
 		rect.top <= block.bottom && // bottom right
 		rect.left <= block.right)
 	{
-		rect.update(-vx, -vy);
+		rect.update(-vx * dt, -vy * dt);
 		if (vx < 0 && vy < 0) // coming from the bottom right
 			vx = -vx, vy = -vy;
 		else if (vx < 0 && vy > 0)
@@ -164,7 +164,7 @@ bool Ball::hitBlock(const Rect& block)
 		rect.bottom <= block.bottom && // top left
 		rect.right <= block.right)
 	{
-		rect.update(-vx, -vy);
+		rect.update(-vx * dt, -vy * dt);
 		if (vx > 0 && vy > 0) // coming from top left
 			vx = -vx, vy = -vy;
 		else if (vx < 0 && vy > 0)
@@ -180,7 +180,7 @@ bool Ball::hitBlock(const Rect& block)
 		rect.right <= block.right
 		)
 	{
-		rect.update(-vx, -vy);
+		rect.update(-vx * dt, -vy * dt);
 		if (vx < 0 && vy < 0) // coming from the bottom right
 			vy = -vy / 2;
 		else if (vx > 0 && vy > 0)

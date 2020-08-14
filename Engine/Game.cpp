@@ -54,7 +54,7 @@ void Game::UpdateModel()
 		ball.vx += (player.v > 0)? (ball.vx >= 3 * 60.0f)? 0 : player.v / 3 : (ball.vx <= -3 * 60.0f)? 0: player.v / 3;
 
 	for (auto& block : blocks)
-		if (ball.hitBlock(block->getRect()))
+		if (ball.hitBlock(block->getRect(), dt))
 			block->DecHitCounter();
 
 	for (auto i = 0; i < blocks.size(); ++i)

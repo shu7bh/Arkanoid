@@ -11,7 +11,7 @@ public:
 	void keepInFrame(int top, int left, int right);
 	const Rect& getRect() const { return rect; }
 	bool touchedBottom(int bottom);
-	bool hitBlock(const Rect& object);
+	bool hitBlock(const Rect& object, const float dt);
 	void draw(Graphics& gfx) const;
 	float vx, vy;
 	bool hitPlayer(const Rect& player);
