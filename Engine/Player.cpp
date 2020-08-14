@@ -11,9 +11,10 @@ Player::Player(const float t, const float l, const Color c)
 	: rect(t, l, height, width, c), v(0) {}
 
 
-void Player::update(const float dt)
+void Player::update(const float dt, const float totalTime)
 {
-	rect.update(v * dt, 0);
+	float addSpeed = (v == 0) ? 0 : (v / abs(v)) * totalTime * 60.0f * dt / 30.0f;
+	rect.update(v * dt + addSpeed, 0);
 }
 
 void Player::ChangeVelocity(MainWindow& wnd)

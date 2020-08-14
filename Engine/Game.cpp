@@ -44,13 +44,13 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	dt = execTime.getExecTime();
 	if (gameStarted)
 	{
-		dt = execTime.getExecTime();
 		player.ChangeVelocity(wnd);
-		player.update(dt);
+		player.update(dt, execTime.TotalTime());
 		player.KeepInFrame(0, gfx.ScreenWidth);
-		ball.update(dt);
+		ball.update(dt, execTime.TotalTime());
 		ball.hitPlayer(player.getRect(), dt);
 
 		for (auto& block : blocks)

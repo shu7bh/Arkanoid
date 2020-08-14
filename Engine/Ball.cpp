@@ -1,5 +1,5 @@
 #include "Ball.h"
-//ball constructor definition, with 
+//ball constructor definition, with left and right 
 Ball::Ball(const float t, const float l, const float b, const float r, const Color c)
 	: rect(t, l, b, r, c) 
 {
@@ -7,7 +7,7 @@ Ball::Ball(const float t, const float l, const float b, const float r, const Col
 	//vy = 1.5f * 60.0f;
 	vx = 0, vy = 1;
 }
-
+//ball constructor definition, without left and right 
 Ball::Ball(const float t, const float l, const Color c)
 	: rect(t, l, width, width, c)
 {
@@ -17,35 +17,39 @@ Ball::Ball(const float t, const float l, const Color c)
 }
 
 //ball movement definition
-void Ball::update(const float dt)
+void Ball::update(const float dt, const float totalTime)
 {
-	rect.update(vx * dt, vy * dt);
+	float addSpeed = (vy == 0) ? 0 : (vy / abs(vy)) * totalTime * 60.0f * dt / 30.0f;
+	rect.update(vx * dt , vy * dt + addSpeed);
 }
 
+//function that ensures ball remains in frame, but allows it to escape through bottom. hence bottom is not taken
+//note that rect here refers to the ball
 void Ball::keepInFrame(int top, int left, int right)
 {
-	if (int(rect.top) < top)
+	if (int(rect.top) < top) // if ball goes above the top limit of game
 	{
-		rect.top = float(top);
-		rect.bottom = float(top + width);
-		vy = -vy;
+		rect.top = float(top);				//ensures the ball maintains the shape (top)
+		rect.bottom = float(top + width);	//ensures the ball maintains the shape (bottom)
+		vy = -vy;							//the ball now changes 
 	}
 
-	if (int(rect.left) < left)
+	if (int(rect.left) < left)				//similar to the previous one
 	{
 		rect.left = float(left);
 		rect.right = float(left + width);
 		vx = -vx;
 	}
 
-	if (int(rect.right) >= right)
+	if (int(rect.right) >= right)			//similar to the previous one
 	{
-		rect.right = float(right - 1);
+		rect.right = float(right - 1);		//we subtract 1 here becoz previously the ball goes 1 above the right boundary?
 		rect.left = rect.right - float(width);
 		vx = -vx;
 	}
 }
 
+//if the ball passes through the bottom boundary
 bool Ball::touchedBottom(int bottom)
 {
 	if (int(rect.bottom >= bottom))
@@ -53,6 +57,7 @@ bool Ball::touchedBottom(int bottom)
 	return false;
 }
 
+//the ball hits the block. function takes in position of the block which is hit 
 bool Ball::hitBlock(const Rect& block, const float dt)
 {
 	if (rect.bottom >= block.top &&
