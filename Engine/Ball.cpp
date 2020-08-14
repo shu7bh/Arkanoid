@@ -3,21 +3,21 @@
 Ball::Ball(const float t, const float l, const float b, const float r, const Color c)
 	: rect(t, l, b, r, c) 
 {
-	vx = 1.5f;
-	vy = 1.5f;
+	vx = 1.5f * 60.0f;
+	vy = 1.5f * 60.0f;
 }
 
 Ball::Ball(const float t, const float l, const Color c)
 	: rect(t, l, width, width, c)
 {
-	vx = 1.5f;
-	vy = 1.5f;
+	vx = 1.5f * 60.0f;
+	vy = 1.5f * 60.0f;
 }
 
 //ball movement definition
-void Ball::update()
+void Ball::update(const float dt)
 {
-	rect.update(vx, vy);
+	rect.update(vx * dt, vy * dt);
 }
 
 void Ball::keepInFrame(int top, int left, int right)

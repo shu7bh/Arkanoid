@@ -11,28 +11,31 @@ Player::Player(const float t, const float l, const Color c)
 	: rect(t, l, height, width, c), v(0) {}
 
 
-void Player::update()
+void Player::update(const float dt)
 {
-	rect.update(v, 0);
+	rect.update(v * dt, 0);
 }
 
 void Player::ChangeVelocity(MainWindow& wnd)
 {
 	if (wnd.kbd.KeyIsPressed(VK_LEFT) || wnd.kbd.KeyIsPressed('A'))
 	{
-		v = (v >= 0) ? -3.5f : v;
-		v += (v <= -5) ? 0 : -0.05f;
+		v = (v >= 0) ? -3.5f * 60.0f : v;
+		v += (v <= -5 * 60.0f) ? 0 : -0.05f * 60.0f;
 	}
 	else if (wnd.kbd.KeyIsPressed(VK_RIGHT) || wnd.kbd.KeyIsPressed('D'))
 	{
-		v = (v <= 0) ? 3.5f : v;
-		v += (v >= 5) ? 0 : +0.05f;
+		v = (v <= 0) ? 3.5f * 60.0f : v;
+		v += (v >= 5 * 60.0f) ? 0 : +0.05f * 60.0f;
 	}
 	else v = 0;
 }
 
 void Player::KeepInFrame(int Left, int Right)
-{
-	if (int(rect.left) <= Left - int(v) || int(rect.right) >= Right - int(v))
-		v = 0;
+{	
+	if (int(rect.left) <= Left)
+		v = 0, rect.left = float(Left), rect.right = rect.left + width;
+		
+	if (int(rect.right) >= Right)
+		v = 0, rect.right = float(Right - 1), rect.left = rect.right - width;
 }

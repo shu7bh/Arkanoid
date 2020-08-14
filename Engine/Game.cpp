@@ -26,7 +26,8 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	player(500, 200),
-	ball(gfx.ScreenHeight / 2 + 10, 10)
+	ball(gfx.ScreenHeight / 2 + 10, 10),
+	dt(execTime.getExecTime())
 {
 	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += Block::height + 10, ++count)
 		for (auto i = 10, ct = 0; i < gfx.ScreenWidth - Block::width - 10 && ct < count; i += Block::width + 10, ++ct)
@@ -43,13 +44,14 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	dt = execTime.getExecTime();
 	player.ChangeVelocity(wnd);
+	player.update(dt);
 	player.KeepInFrame(0, gfx.ScreenWidth);
-	player.update();
-	ball.update();
+	ball.update(dt);
 	ball.keepInFrame(0, 0, gfx.ScreenWidth);
 	if (ball.hitPlayer(player.getRect()))
-		ball.vx += (player.v > 0)? (ball.vx >= 3)? 0 : player.v / 3 : (ball.vx <= -3)? 0: player.v / 3;
+		ball.vx += (player.v > 0)? (ball.vx >= 3 * 60.0f)? 0 : player.v / 3 : (ball.vx <= -3 * 60.0f)? 0: player.v / 3;
 
 	for (auto& block : blocks)
 		if (ball.hitBlock(block->getRect()))
