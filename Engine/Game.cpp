@@ -57,6 +57,23 @@ void Game::UpdateModel()
 			ball->hitPlayer(player.getRect(), dt);
 		}
 
+		
+		for (auto& block : blocks) {
+			for (auto i = 0; i < bullets.size(); ++i) {
+				bool isblock;
+				if (bullets[i]->isHit(block->getRect(), isblock,dt)) {
+					if (isblock)
+						block->DecHitCounter(), bullets.erase(bullets.begin() + i-- );
+					else
+						bullets.erase(bullets.begin() + i--);
+				}
+			}
+		}
+
+
+		for (auto& bullet : bullets)
+			bullet->update(dt);
+
 		for (auto& block : blocks)
 			for (const auto& ball : balls)
 				if (ball->hitBlock(block->getRect(), dt))
@@ -64,6 +81,13 @@ void Game::UpdateModel()
 
 		if (Ball::score % 20 == 0 && Ball::score > 0)
 			balls.push_back(std::make_unique<Ball>(*balls.front())), ++Ball::score;
+    
+		if (Ball::score % 6 == 0 && Ball::score > 0)
+    {
+			bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().left));
+			bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().right));
+			++Ball::score;
+		}
 
 		for (auto i = 0; i < blocks.size(); ++i)
 			if (blocks[i]->HitCounter() == 0)
@@ -92,8 +116,10 @@ void Game::ComposeFrame()
 	player.getRect().draw(gfx);
 	for (const auto& block : blocks)
 		block->getRect().draw(gfx);
-	for (const auto& ball : balls)
+  for (const auto& ball : balls)
 		ball->draw(gfx);
+	for (const auto& bullet : bullets)
+		bullet->getRect().draw(gfx);
 	drawBorders();
 }
 

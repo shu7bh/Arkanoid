@@ -28,6 +28,7 @@
 #include "Block.h"
 #include "Ball.h"
 #include "Time.h"
+#include "Bullet.h"
 
 class Game
 {
@@ -53,6 +54,7 @@ private:
 //	Block block;
 	std::vector <std::unique_ptr<Block>> blocks;
 	std::vector <std::unique_ptr<Ball>> balls;
+	std::vector <std::unique_ptr<Bullet>> bullets;
 	Time execTime;
 	float dt;
 	bool gameStarted = false;
