@@ -7,6 +7,7 @@ class Ball
 public:
 	Ball(const float t, const float l, const float b, const float r, const Color c = Colors::Yellow);
 	Ball(const float t, const float l, const Color c = Colors::Yellow);
+	Ball(const Ball& ball);
 	void update(const float dt, const float totalTime);
 	void keepInFrame(int top, int left, int right);
 	const Rect& getRect() const { return rect; }

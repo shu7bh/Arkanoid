@@ -6,8 +6,6 @@ int Ball::score = 0;
 Ball::Ball(const float t, const float l, const float b, const float r, const Color c)
 	: rect(t, l, b, r, c) 
 {
-	//vx = 1.5f * 60.0f;
-	//vy = 1.5f * 60.0f;
 	vx = 0, vy = 1;
 }
 
@@ -15,11 +13,19 @@ Ball::Ball(const float t, const float l, const float b, const float r, const Col
 Ball::Ball(const float t, const float l, const Color c)
 	: rect(t, l, width, width, c)
 {
-	//vx = 1.5f * 60.0f;
-	//vy = 1.5f * 60.0f;
 	vx = 0, vy = 1;
 }
 
+#define B(x) ball.getRect().x
+
+Ball::Ball(const Ball& ball)
+{
+	rect.top = B(top), rect.bottom = B(bottom), rect.left = B(left), rect.right = B(right);
+	rect.color = B(color);
+	vx = ball.vx * 1.5f, vy = ball.vy / 2;
+}
+
+#undef B
 //ball movement definition
 void Ball::update(const float dt, const float totalTime)
 {
