@@ -26,12 +26,12 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd ),
 	player(gfx.ScreenHeight - Player::height - 1, (gfx.ScreenWidth - Player::width) / 2),
-	ball(gfx.ScreenHeight - Player::height - Ball::width - 1, (gfx.ScreenWidth - Ball::width) / 2),
 	dt(execTime.getExecTime())
 {
 	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += Block::height + 10, ++count)
 		for (auto i = 10 + sideBordervar, ct = 0; i < gfx.ScreenWidth - Block::width - 10 - sideBordervar && ct < count; i += Block::width + 10, ++ct)
 		blocks.push_back(std::make_unique<Block>(float(j), float(i), float(j + Block::height), float(i + Block::width)));
+	balls.push_back(std::make_unique<Ball>(gfx.ScreenHeight - Player::height - Ball::width - 1, (gfx.ScreenWidth - Ball::width) / 2));
 }
 
 void Game::Go()
@@ -50,8 +50,12 @@ void Game::UpdateModel()
 		player.ChangeVelocity(wnd);
 		player.update(dt, execTime.TotalTime());
 		player.KeepInFrame(sideBordervar, gfx.ScreenWidth - sideBordervar);
-		ball.update(dt, execTime.TotalTime());
-		ball.hitPlayer(player.getRect(), dt);
+
+		for (auto& ball : balls)
+		{
+			ball->update(dt, execTime.TotalTime());
+			ball->hitPlayer(player.getRect(), dt);
+		}
 
 		
 		for (auto& block : blocks) {
@@ -71,11 +75,15 @@ void Game::UpdateModel()
 			bullet->update(dt);
 
 		for (auto& block : blocks)
-			if (ball.hitBlock(block->getRect(), dt)) {
-				++Ball::score;
-				block->DecHitCounter();
-			}
-		if (Ball::score % 6 == 0 && Ball::score > 0) {
+			for (const auto& ball : balls)
+				if (ball->hitBlock(block->getRect(), dt))
+					++Ball::score, block->DecHitCounter();
+
+		if (Ball::score % 20 == 0 && Ball::score > 0)
+			balls.push_back(std::make_unique<Ball>(*balls.front())), ++Ball::score;
+    
+		if (Ball::score % 6 == 0 && Ball::score > 0)
+    {
 			bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().left));
 			bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().right));
 			++Ball::score;
@@ -88,20 +96,28 @@ void Game::UpdateModel()
 				--i;
 			}
 
-		ball.keepInFrame(0, sideBordervar, gfx.ScreenWidth - sideBordervar);
-		if (ball.touchedBottom(gfx.ScreenHeight))
+		for (int i = 0; i < balls.size(); ++i)
+		{
+			balls[i]->keepInFrame(0, sideBordervar, gfx.ScreenWidth - sideBordervar);
+			if (balls[i]->touchedBottom(gfx.ScreenHeight))
+				balls.erase(balls.begin() + i--);
+		}
+		if (balls.size() == 0)
 			exit(0);
 	}
 	else if (wnd.mouse.LeftIsPressed())
 		gameStarted = true;
 }
 
+#include <algorithm>
+
 void Game::ComposeFrame()
 {
 	player.getRect().draw(gfx);
 	for (const auto& block : blocks)
 		block->getRect().draw(gfx);
-	ball.draw(gfx);
+  for (const auto& ball : balls)
+		ball->draw(gfx);
 	for (const auto& bullet : bullets)
 		bullet->getRect().draw(gfx);
 	drawBorders();

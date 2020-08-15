@@ -6,8 +6,6 @@ int Ball::score = 0;
 Ball::Ball(const float t, const float l, const float b, const float r, const Color c)
 	: rect(t, l, b, r, c) 
 {
-	//vx = 1.5f * 60.0f;
-	//vy = 1.5f * 60.0f;
 	vx = 0, vy = 1;
 }
 
@@ -15,11 +13,19 @@ Ball::Ball(const float t, const float l, const float b, const float r, const Col
 Ball::Ball(const float t, const float l, const Color c)
 	: rect(t, l, width, width, c)
 {
-	//vx = 1.5f * 60.0f;
-	//vy = 1.5f * 60.0f;
 	vx = 0, vy = 1;
 }
 
+#define B(x) ball.getRect().x
+
+Ball::Ball(const Ball& ball)
+{
+	rect.top = B(top), rect.bottom = B(bottom), rect.left = B(left), rect.right = B(right);
+	rect.color = B(color);
+	vx = ball.vx * 1.5f, vy = ball.vy / 2;
+}
+
+#undef B
 //ball movement definition
 void Ball::update(const float dt, const float totalTime)
 {
@@ -108,36 +114,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 		return true;
 	}
 // block ball corner interface
-
-/*
-	if ((rect.bottom >= block.top &&
-		rect.left >= block.left &&
-		rect.bottom <= block.bottom && // top right
-		rect.left <= block.right)
-		||
-		(rect.top >= block.top &&
-		rect.left >= block.left &&
-		rect.top <= block.bottom && // bottom right
-		rect.left <= block.right
-		)
-		||
-		(rect.bottom >= block.top &&
-		rect.right >= block.left &&
-		rect.bottom <= block.bottom && // top left
-		rect.right <= block.right)
-		||
-		(rect.top >= block.top &&
-		rect.right >= block.left &&
-		rect.top <= block.bottom && // bottom left
-		rect.right <= block.right
-		))
-	{
-		vy = -vy;
-		vx = -vx;
-		return true;
-	}
-
-*/
 	if (rect.bottom >= block.top &&
 		rect.left >= block.left &&
 		rect.bottom <= block.bottom && // top right
@@ -218,70 +194,6 @@ void Ball::draw(Graphics& gfx) const
 #include <random>
 void Ball::hitPlayer(const Rect& player, const float dt)
 {
-/*	if (rect.bottom >= player.top &&
-		rect.bottom < player.bottom &&
-		rect.left > player.left &&
-		rect.right < player.right)
-	{ // If condition if the ball touches the bottom side only, not the corners at all
-		vy = -vy;
-		return true;
-	}
-
-	if (rect.top > player.top &&
-		rect.top <= player.bottom &&
-		rect.left > player.left &&
-		rect.right < player.right)
-	{ // If condition if the ball touches the top side only, not the corners at all
-		vy = -vy;
-		return true;
-	}
-
-	if (rect.left >= player.left &&
-		rect.left < player.right &&
-		rect.top > player.top &&
-		rect.bottom < player.bottom)
-	{ // If condition if the ball touches the Left side only, not the corners at all
-		vx = -vx;
-		return true;
-	}
-
-	if (rect.right > player.left &&
-		rect.right <= player.right &&
-		rect.top > player.top &&
-		rect.bottom < player.bottom)
-	{ // If condition if the ball touches the right side only, not the corners at all
-		vx = -vx;
-		return true;
-	}
-
-	if ((rect.bottom >= player.top &&
-		rect.left >= player.left &&
-		rect.bottom <= player.bottom &&
-		rect.left <= player.right)
-		||
-		(rect.top >= player.top &&
-			rect.left >= player.left &&
-			rect.top <= player.bottom &&
-			rect.left <= player.right
-			)
-		||
-		(rect.bottom >= player.top &&
-			rect.right >= player.left &&
-			rect.bottom <= player.bottom &&
-			rect.right <= player.right)
-		||
-		(rect.top >= player.top &&
-			rect.right >= player.left &&
-			rect.top <= player.bottom &&
-			rect.right <= player.right
-			))
-	{
-		vy = -vy;
-		vx = -vx;
-		return true;
-	}
-	return false;
-	*/
 	static std::random_device rd;
 	static std::default_random_engine generator(rd());
 	static std::uniform_real_distribution<float> values(2.0f, 3.5f);

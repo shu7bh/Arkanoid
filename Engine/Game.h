@@ -53,8 +53,8 @@ private:
 	Player player;
 //	Block block;
 	std::vector <std::unique_ptr<Block>> blocks;
+	std::vector <std::unique_ptr<Ball>> balls;
 	std::vector <std::unique_ptr<Bullet>> bullets;
-	Ball ball;
 	Time execTime;
 	float dt;
 	bool gameStarted = false;
