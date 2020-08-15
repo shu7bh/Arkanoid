@@ -1,4 +1,7 @@
 #include "Ball.h"
+
+int Ball::score = 0;
+
 //ball constructor definition, with left and right 
 Ball::Ball(const float t, const float l, const float b, const float r, const Color c)
 	: rect(t, l, b, r, c) 
@@ -6,8 +9,8 @@ Ball::Ball(const float t, const float l, const float b, const float r, const Col
 	//vx = 1.5f * 60.0f;
 	//vy = 1.5f * 60.0f;
 	vx = 0, vy = 1;
-	Ball::score = 0;
 }
+
 //ball constructor definition, without left and right 
 Ball::Ball(const float t, const float l, const Color c)
 	: rect(t, l, width, width, c)
@@ -15,7 +18,6 @@ Ball::Ball(const float t, const float l, const Color c)
 	//vx = 1.5f * 60.0f;
 	//vy = 1.5f * 60.0f;
 	vx = 0, vy = 1;
-	Ball::score = 0;
 }
 
 //ball movement definition
