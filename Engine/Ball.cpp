@@ -72,7 +72,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 		rect.bottom = block.top;
 		rect.top = rect.bottom - width;
 		vy = -vy;
-		++Ball::score;
 		return true;
 	}
 
@@ -84,7 +83,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 		rect.top = block.bottom;
 		rect.bottom = rect.top + width;
 		vy = -vy;
-		++Ball::score;
 		return true;
 	}
 
@@ -96,7 +94,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 		rect.left = block.right;
 		rect.right = rect.left + width;
 		vx = -vx;
-		++Ball::score;
 		return true;
 	}
 
@@ -108,7 +105,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 		rect.right = block.left;
 		rect.left = rect.right - width;
 		vx = -vx;
-		++Ball::score;
 		return true;
 	}
 // block ball corner interface
@@ -154,7 +150,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 			vy = -vy / 2; // top left coming towards top right
 		else if (vx < 0 && vy > 0)
 			vx = -vx, vy = -vy; // top right towards top right
-		++Ball::score;
 		return true;
 
 		// before: it goes inside the block, 
@@ -172,7 +167,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 			vx = -vx / 2; // coming from top right
 		else if (vx > 0 && vy < 0)
 			vy = -vy / 2; // coming from bottom left
-		++Ball::score;
 		return true;
 	}
 
@@ -188,7 +182,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 			vy = -vy / 2; // coming from top right
 		else if (vx > 0 && vy < 0)
 			vx = -vx / 2; // coming from bottom left
-		++Ball::score;
 		return true;		
 	}
 
@@ -205,7 +198,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 			vx = -vx / 2; // coming from top left
 		else if (vx >= 0 && vy < 0)
 			vy = -vy , vx = -vx; // coming from bottom left
-		++Ball::score;
 		return true;
 	}
 	return false;
