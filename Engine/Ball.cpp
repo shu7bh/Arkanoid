@@ -112,36 +112,6 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 		return true;
 	}
 // block ball corner interface
-
-/*
-	if ((rect.bottom >= block.top &&
-		rect.left >= block.left &&
-		rect.bottom <= block.bottom && // top right
-		rect.left <= block.right)
-		||
-		(rect.top >= block.top &&
-		rect.left >= block.left &&
-		rect.top <= block.bottom && // bottom right
-		rect.left <= block.right
-		)
-		||
-		(rect.bottom >= block.top &&
-		rect.right >= block.left &&
-		rect.bottom <= block.bottom && // top left
-		rect.right <= block.right)
-		||
-		(rect.top >= block.top &&
-		rect.right >= block.left &&
-		rect.top <= block.bottom && // bottom left
-		rect.right <= block.right
-		))
-	{
-		vy = -vy;
-		vx = -vx;
-		return true;
-	}
-
-*/
 	if (rect.bottom >= block.top &&
 		rect.left >= block.left &&
 		rect.bottom <= block.bottom && // top right
@@ -226,70 +196,6 @@ void Ball::draw(Graphics& gfx) const
 #include <random>
 void Ball::hitPlayer(const Rect& player, const float dt)
 {
-/*	if (rect.bottom >= player.top &&
-		rect.bottom < player.bottom &&
-		rect.left > player.left &&
-		rect.right < player.right)
-	{ // If condition if the ball touches the bottom side only, not the corners at all
-		vy = -vy;
-		return true;
-	}
-
-	if (rect.top > player.top &&
-		rect.top <= player.bottom &&
-		rect.left > player.left &&
-		rect.right < player.right)
-	{ // If condition if the ball touches the top side only, not the corners at all
-		vy = -vy;
-		return true;
-	}
-
-	if (rect.left >= player.left &&
-		rect.left < player.right &&
-		rect.top > player.top &&
-		rect.bottom < player.bottom)
-	{ // If condition if the ball touches the Left side only, not the corners at all
-		vx = -vx;
-		return true;
-	}
-
-	if (rect.right > player.left &&
-		rect.right <= player.right &&
-		rect.top > player.top &&
-		rect.bottom < player.bottom)
-	{ // If condition if the ball touches the right side only, not the corners at all
-		vx = -vx;
-		return true;
-	}
-
-	if ((rect.bottom >= player.top &&
-		rect.left >= player.left &&
-		rect.bottom <= player.bottom &&
-		rect.left <= player.right)
-		||
-		(rect.top >= player.top &&
-			rect.left >= player.left &&
-			rect.top <= player.bottom &&
-			rect.left <= player.right
-			)
-		||
-		(rect.bottom >= player.top &&
-			rect.right >= player.left &&
-			rect.bottom <= player.bottom &&
-			rect.right <= player.right)
-		||
-		(rect.top >= player.top &&
-			rect.right >= player.left &&
-			rect.top <= player.bottom &&
-			rect.right <= player.right
-			))
-	{
-		vy = -vy;
-		vx = -vx;
-		return true;
-	}
-	return false;
-	*/
 	static std::random_device rd;
 	static std::default_random_engine generator(rd());
 	static std::uniform_real_distribution<float> values(2.0f, 3.5f);
