@@ -58,18 +58,18 @@ void Game::UpdateModel()
 		}
 
 		for (auto& block : blocks)
-			if (std::any_of(balls.cbegin(), balls.cend(), [](const auto& ball) {ball.hitBlock(block->getRect(), dt); }))
-				block->DecHitCounter();
+			for (const auto& ball : balls)
+				if (ball->hitBlock(block->getRect(), dt))
+					++Ball::score, block->DecHitCounter();
 
-		if (Ball::score % 20 == 0)
-			balls.push_back(std::make_unique<Ball>(balls.front()));
+		if (Ball::score % 20 == 0 && Ball::score > 0)
+			balls.push_back(std::make_unique<Ball>(*balls.front())), ++Ball::score;
 
 		for (auto i = 0; i < blocks.size(); ++i)
 			if (blocks[i]->HitCounter() == 0)
 			{
 				blocks.erase(blocks.begin() + i);
 				--i;
-				break;
 			}
 
 		for (int i = 0; i < balls.size(); ++i)
