@@ -16,6 +16,7 @@ public:
 	float vx, vy;
 	void hitPlayer(const Rect& player, const float dt);
 	static constexpr int width = 10;
+	static int score;
 private:
 	Rect rect;
 	
