@@ -44,6 +44,7 @@ private:
 	/*  User Functions              */
 	/********************************/
 	void drawBorders();
+	void drawEnded(const int x, const int y);
 private:
 	MainWindow& wnd;
 	Graphics gfx;
@@ -51,6 +52,7 @@ private:
 	/*  User Variables              */
 	/********************************/
 	Player player;
+	bool isEnded = false;
 //	Block block;
 	std::vector <std::unique_ptr<Block>> blocks;
 	std::vector <std::unique_ptr<Ball>> balls;
@@ -58,5 +60,5 @@ private:
 	Time execTime;
 	float dt;
 	bool gameStarted = false;
-	static constexpr int sideBordervar = 100;   // dist bw border and gfx.screenwidth
+	static constexpr int sideBordervar = 120;   // dist bw border and gfx.screenwidth
 };

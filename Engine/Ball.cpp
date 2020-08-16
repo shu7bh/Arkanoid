@@ -181,14 +181,14 @@ bool Ball::hitBlock(const Rect& block, const float dt)
 
 void Ball::draw(Graphics& gfx) const
 {
-	int rad = int((rect.right - rect.left) / 2);
-	int cx = int((rect.right + rect.left) / 2);
-	int cy = int((rect.bottom + rect.top) / 2);
+	float rad = float((rect.right - rect.left) / 2);
+	float cx = float((rect.right + rect.left) / 2);
+	float cy = float((rect.bottom + rect.top) / 2);
 
-	for (int i = int(rect.left); i <= int(rect.right); ++i)
-		for (int j = int(rect.top); j <= int(rect.bottom); ++j)
+	for (float i = int(rect.left); i <= int(rect.right); ++i)
+		for (float j = int(rect.top); j <= int(rect.bottom); ++j)
 			if ((cx - i) * (cx - i) + (cy - j) * (cy - j) <= rad * rad)
-				gfx.PutPixel(i, j, rect.color);
+				gfx.PutPixel(int(i), int(j), rect.color);
 }
 
 #include <random>

@@ -39,8 +39,8 @@ void Player::ChangeVelocity(MainWindow& wnd)
 	int center = int ((rect.left + rect.right) / 2);
 	v = floorf((wnd.mouse.GetPosX() - center) * 60.0f);
 	int z = v == 0? 0 : v / abs(v);
-	v = std::min(abs(wnd.mouse.GetPosX() - center  - 5) , abs(wnd.mouse.GetPosX() - center + 5));
-	v *= z * 60.0f / 10.0f;
+	v = std::min(abs(wnd.mouse.GetPosX() - center  - width/4) , abs(wnd.mouse.GetPosX() - center + width/4));
+	v *= z * 60.0f / 5.0f;
 }
 
 void Player::KeepInFrame(int Left, int Right)

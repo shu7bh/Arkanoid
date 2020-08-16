@@ -16,7 +16,7 @@ public:
 	void draw(Graphics& gfx) const;
 	float vx, vy;
 	void hitPlayer(const Rect& player, const float dt);
-	static constexpr int width = 10;
+	static constexpr int width = 8;
 	static int score;
 private:
 	Rect rect;
