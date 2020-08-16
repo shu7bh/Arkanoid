@@ -20,5 +20,11 @@ Block::Block(const float t, const float l, const float b, const float r, Color c
 
 Block::Block(const float t, const float l, const Color c)
 	: rect(t, l, height, width, c)
+{}
+void Block::DecHitCounter() 
 {
+	--hitCounter;
+	if (hitCounter < 0)
+		return;
+	rect.color = colors[hitCounter];
 }
