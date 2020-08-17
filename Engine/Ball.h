@@ -1,6 +1,7 @@
 #pragma once
 #include "Rect.h"
 #include "Graphics.h"
+#include "Sound.h"
 
 class Ball
 {
@@ -20,6 +21,6 @@ public:
 	static int score;
 private:
 	Rect rect;
-	
+	Sound hitWall, hitBrick;
 
 };

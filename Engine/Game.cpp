@@ -21,12 +21,14 @@
 #include "MainWindow.h"
 #include "Game.h"
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd ),
+	wnd(wnd),
+	gfx(wnd),
 	player(gfx.ScreenHeight - Player::height - 1, (gfx.ScreenWidth - Player::width) / 2),
-	dt(execTime.getExecTime())
+	dt(execTime.getExecTime()),
+	ready(L"Sounds\\ready.wav"),
+	ballErased(L"Sounds\\fart.wav")
 {
 	for (auto j = 20, count = 1; j < gfx.ScreenHeight / 2; j += Block::height + 10, ++count)
 		for (auto i = 10 + sideBordervar, ct = 0; i < gfx.ScreenWidth - Block::width - 10 - sideBordervar && ct < count; i += Block::width + 10, ++ct)
@@ -91,7 +93,7 @@ void Game::UpdateModel()
 			{
 				balls[i]->keepInFrame(0, sideBordervar, gfx.ScreenWidth - sideBordervar);
 				if (balls[i]->touchedBottom(gfx.ScreenHeight))
-					balls.erase(balls.begin() + i--);
+					balls.erase(balls.begin() + i--), ballErased.Play();
 			}
 
 			if (balls.size() == 0)
@@ -109,6 +111,8 @@ void Game::UpdateModel()
 		}
 		else if (wnd.mouse.LeftIsPressed())
 			gameStarted = true;
+		else;
+			//ready.Play();
 	}
 	else if (wnd.mouse.LeftIsPressed())
 		exit(0);

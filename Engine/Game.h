@@ -29,6 +29,7 @@
 #include "Ball.h"
 #include "Time.h"
 #include "Bullet.h"
+#include "Sound.h"
 
 class Game
 {
@@ -61,4 +62,5 @@ private:
 	float dt;
 	bool gameStarted = false;
 	static constexpr int sideBordervar = 120;   // dist bw border and gfx.screenwidth
+	Sound ready, ballErased;
 };
