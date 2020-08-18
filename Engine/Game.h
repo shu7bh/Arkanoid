@@ -34,6 +34,13 @@
 class Game
 {
 public:
+	enum class GameState
+	{
+		NotStarted,
+		Started,
+		Ended
+	};
+public:
 	Game( class MainWindow& wnd );
 	Game( const Game& ) = delete;
 	Game& operator=( const Game& ) = delete;
@@ -53,14 +60,14 @@ private:
 	/*  User Variables              */
 	/********************************/
 	Player player;
-	bool isEnded = false;
 //	Block block;
 	std::vector <std::unique_ptr<Block>> blocks;
 	std::vector <std::unique_ptr<Ball>> balls;
 	std::vector <std::unique_ptr<Bullet>> bullets;
 	Time execTime;
 	float dt;
-	bool gameStarted = false;
 	static constexpr int sideBordervar = 120;   // dist bw border and gfx.screenwidth
 	Sound ready, ballErased;
+
+	GameState gameState = GameState::NotStarted;
 };

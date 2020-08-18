@@ -46,93 +46,102 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (!isEnded)
+	switch (gameState)
 	{
-		dt = execTime.getExecTime();
-		if (gameStarted)
+	case GameState::NotStarted:
+		if (wnd.mouse.LeftIsPressed())
+			gameState = GameState::Started;
+		break;
+		
+	case GameState::Started:
+		player.ChangeVelocity(wnd);
+		player.update(dt, execTime.TotalTime());
+		player.KeepInFrame(sideBordervar, gfx.ScreenWidth - sideBordervar);
+
+		for (auto& ball : balls)
 		{
-			player.ChangeVelocity(wnd);
-			player.update(dt, execTime.TotalTime());
-			player.KeepInFrame(sideBordervar, gfx.ScreenWidth - sideBordervar);
-
-			for (auto& ball : balls)
-			{
-				ball->update(dt, execTime.TotalTime());
-				ball->hitPlayer(player.getRect(), dt);
-			}
+			ball->update(dt, execTime.TotalTime());
+			ball->hitPlayer(player.getRect(), dt);
+		}
 
 
-			for (auto& block : blocks) {
-				for (auto i = 0; i < bullets.size(); ++i) {
-					bool isblock;
-					if (bullets[i]->isHit(block->getRect(), isblock, dt)) {
-						if (isblock)
-							block->DecHitCounter(), bullets.erase(bullets.begin() + i--);
-						else
-							bullets.erase(bullets.begin() + i--);
-					}
+		for (auto& block : blocks) {
+			for (auto i = 0; i < bullets.size(); ++i) {
+				bool isblock;
+				if (bullets[i]->isHit(block->getRect(), isblock, dt)) {
+					if (isblock)
+						block->DecHitCounter(), bullets.erase(bullets.begin() + i--);
+					else
+						bullets.erase(bullets.begin() + i--);
 				}
-			}
-
-
-			for (auto& bullet : bullets)
-				bullet->update(dt);
-
-			for (auto& block : blocks)
-				for (const auto& ball : balls)
-					if (ball->hitBlock(block->getRect(), dt))
-						++Ball::score, block->DecHitCounter();
-
-			for (auto i = 0; i < blocks.size(); ++i)
-				if (blocks[i]->HitCounter() <= 0)
-				{
-					blocks.erase(blocks.begin() + i);
-					--i;
-				}
-			for (int i = 0; i < balls.size(); ++i)
-			{
-				balls[i]->keepInFrame(0, sideBordervar, gfx.ScreenWidth - sideBordervar);
-				if (balls[i]->touchedBottom(gfx.ScreenHeight))
-					balls.erase(balls.begin() + i--), ballErased.Play();
-			}
-
-			if (balls.size() == 0)
-				isEnded = true;
-
-			if (Ball::score % 20 == 0 && Ball::score > 0)
-				balls.push_back(std::make_unique<Ball>(*balls.front())), ++Ball::score;
-
-			if (Ball::score % 6 == 0 && Ball::score > 0)
-			{
-				bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().left));
-				bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().right));
-				++Ball::score;
 			}
 		}
-		else if (wnd.mouse.LeftIsPressed())
-			gameStarted = true;
-		else;
-			//ready.Play();
+
+
+		for (auto& bullet : bullets)
+			bullet->update(dt);
+
+		for (auto& block : blocks)
+			for (const auto& ball : balls)
+				if (ball->hitBlock(block->getRect(), dt))
+					++Ball::score, block->DecHitCounter();
+
+		for (auto i = 0; i < blocks.size(); ++i)
+			if (blocks[i]->HitCounter() <= 0)
+			{
+				blocks.erase(blocks.begin() + i);
+				--i;
+			}
+		for (int i = 0; i < balls.size(); ++i)
+		{
+			balls[i]->keepInFrame(0, sideBordervar, gfx.ScreenWidth - sideBordervar);
+			if (balls[i]->touchedBottom(gfx.ScreenHeight))
+				balls.erase(balls.begin() + i--), ballErased.Play();
+		}
+
+		if (balls.size() == 0)
+			gameState = GameState::Ended;
+
+		if (Ball::score % 20 == 0 && Ball::score > 0)
+			balls.push_back(std::make_unique<Ball>(*balls.front())), ++Ball::score;
+
+		if (Ball::score % 6 == 0 && Ball::score > 0)
+		{
+			bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().left));
+			bullets.push_back(std::make_unique<Bullet>(player.getRect().top, player.getRect().right));
+			++Ball::score;
+		}
+
+		break;
+
+	case GameState::Ended:
+		if (wnd.mouse.LeftIsPressed())
+			exit(0);
 	}
-	else if (wnd.mouse.LeftIsPressed())
-		exit(0);
 }
 
 #include <algorithm>
 
 void Game::ComposeFrame()
 {
-	player.getRect().draw(gfx);
-	for (const auto& block : blocks)
-		block->getRect().draw(gfx);
-  for (const auto& ball : balls)
-		ball->draw(gfx);
-	for (const auto& bullet : bullets)
-		bullet->getRect().draw(gfx);
-	drawBorders();
-	if (isEnded)
-		drawEnded(350, 450);
+	switch (gameState)
+	{
+	case GameState::NotStarted:
+	case GameState::Started:
+		player.getRect().draw(gfx);
+		for (const auto& block : blocks)
+			block->getRect().draw(gfx);
+		for (const auto& ball : balls)
+			ball->draw(gfx);
+		for (const auto& bullet : bullets)
+			bullet->getRect().draw(gfx);
+		drawBorders();
+		break;
 
+	case GameState::Ended:
+		drawEnded(350, 450);
+		break;
+	}
 }
 
 void Game::drawBorders()
